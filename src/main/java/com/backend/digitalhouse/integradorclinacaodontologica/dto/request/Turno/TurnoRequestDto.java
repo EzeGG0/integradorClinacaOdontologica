@@ -27,11 +27,11 @@ public class TurnoRequestDto {
     @NotNull(message = "Debe especificarse la fecha y hora del turno")
     private LocalDateTime day;
 
-    @NotNull(message = "El paciente no puede ser nulo")
-    private Long turnoPaciente;
+//    @NotNull(message = "El paciente no puede ser nulo")
+    private Long pacienteSeleccionado;
 
     @NotNull(message = "El odontologo no puede ser nulo")
-    private Long odontologo;
+    private Long odontologoSeleccionado;
 
 
 }

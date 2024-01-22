@@ -15,4 +15,5 @@ public class OdontologoTurnoResponseDto {
     private String name;
 
     private String lastName;
+
 }

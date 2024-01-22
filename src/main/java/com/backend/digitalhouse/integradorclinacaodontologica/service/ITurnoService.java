@@ -17,7 +17,7 @@ public interface ITurnoService {
 
     TurnoResponseDto agregarTurno(TurnoRequestDto nuevoTurno);
 
-    TurnoResponseDto buscarPorId(Long id);
+    TurnoResponseDto buscarPorId(Long id) throws Exception;
 
     void eliminarTurno(Long id);
 

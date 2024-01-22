@@ -33,13 +33,14 @@ public class PacienteController {
     }
 
     // POST
+    @PostMapping
     public ResponseEntity<PacienteResponseDto> postPaciente(@RequestBody PacienteRequestDto paciente) {
         return new ResponseEntity<>(pacienteService.agregarPaciente(paciente), HttpStatus.OK);
     }
 
     // DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePacienteById(Long id) {
+    public ResponseEntity<?> deletePacienteById(@PathVariable Long id) {
         pacienteService.eliminarPaciente(id);
         return new ResponseEntity<>("Se elemino el paciente con exito", HttpStatus.OK);
     }

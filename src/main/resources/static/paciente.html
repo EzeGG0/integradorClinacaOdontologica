@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/paciente.css">
+    <title>Administración de Pacientes</title>
+</head>
+<body>
+<div id="app">
+    <h1>Administración de Pacientes</h1>
+    <form id="addPacienteForm">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" required>
+
+        <label for="lastName">Apellido:</label>
+        <input type="text" id="lastName" required>
+
+        <label for="dni">DNI:</label>
+        <input type="text" id="dni" required>
+
+        <label for="calle">Calle:</label>
+        <input type="text" id="calle" required>
+
+        <label for="numero">Número:</label>
+        <input type="text" id="numero" required>
+
+        <label for="localidad">Localidad:</label>
+        <input type="text" id="localidad" required>
+
+        <label for="provincia">Provincia:</label>
+        <input type="text" id="provincia" required>
+
+        <button type="button" onclick="agregarPaciente()">Agregar Paciente</button>
+    </form>
+
+    <h2>Listado de Pacientes</h2>
+    <ul id="pacienteList"></ul>
+
+    <div id="buscarPorIdForm">
+        <h2>Buscar Paciente por ID</h2>
+        <label for="idBuscar">ID:</label>
+        <input type="text" id="idBuscar" required>
+        <button type="button" onclick="buscarPacientePorId()">Buscar</button>
+        <div id="pacientePorIdResult"></div>
+    </div>
+
+</div>
+<script src="./javascript/paciente.js"></script>
+</body>
+</html>

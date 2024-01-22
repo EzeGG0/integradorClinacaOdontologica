@@ -37,6 +37,7 @@ public class PacienteRequestDto {
     @NotNull(message = "El dni del paciente no puede ser nulo")
     private Integer dni;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     @NotNull(message = "El domicilio del paciente no puede ser nulo")
     @Valid
     private LocalDate fechaDeAlta;

@@ -29,13 +29,13 @@ public class TurnoController {
         return new ResponseEntity<>(turnosService.listarTodosLosTurnos(), HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<TurnoResponseDto> getTurnoById(@PathVariable Long id) {
+    public ResponseEntity<TurnoResponseDto> getTurnoById(@PathVariable Long id) throws Exception {
         return new ResponseEntity<>(turnosService.buscarPorId(id), HttpStatus.OK);
     }
 
     // POST
-    @PostMapping
-    public ResponseEntity<TurnoResponseDto> createTurno(@RequestBody TurnoRequestDto nuevoTurno) {
+    @PostMapping("/post")
+    public ResponseEntity<TurnoResponseDto> createTurno(@Valid @RequestBody TurnoRequestDto nuevoTurno) {
         return new ResponseEntity<>(turnosService.agregarTurno(nuevoTurno), HttpStatus.CREATED);
     }
 
@@ -47,8 +47,8 @@ public class TurnoController {
     }
 
     // PUT
-    @PutMapping("/update")
-    public ResponseEntity<TurnoResponseDto> modificarTurno(@Valid @RequestBody TurnoModificacionDto turnoModificado) {
+    @PutMapping
+    public ResponseEntity<TurnoResponseDto> updateTurno(@Valid @RequestBody TurnoModificacionDto turnoModificado) {
         return new ResponseEntity<>(turnosService.modificarTurno(turnoModificado), HttpStatus.OK);
     }
 }

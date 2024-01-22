@@ -17,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -28,8 +30,7 @@ public class TurnosService implements ITurnoService {
     private final PacienteService pacienteService;
     private final OdontologoService odontologoService;
 
-    public TurnosService(ModelMapper modelMapper, TurnoRepository turnoRepository, PacienteService pacienteService,
-                         OdontologoService odontologoService) {
+    public TurnosService(ModelMapper modelMapper, TurnoRepository turnoRepository, PacienteService pacienteService, OdontologoService odontologoService) {
         this.modelMapper = modelMapper;
         this.turnoRepository = turnoRepository;
         this.pacienteService = pacienteService;
@@ -39,9 +40,12 @@ public class TurnosService implements ITurnoService {
     @Override
     public TurnoResponseDto agregarTurno(TurnoRequestDto nuevoTurno) {
         TurnoResponseDto turnoResponseDto = null;
-        PacienteResponseDto paciente = pacienteService.buscarPorId(nuevoTurno.getTurnoPaciente());
-        OdontologoResponseDto odontologo = odontologoService.buscarOdontologoPorId(nuevoTurno.getOdontologo());
-
+        Long turnoPacienteSeleccionadoId = nuevoTurno.getPacienteSeleccionado();
+        Long odontologoSeleccionadoId = nuevoTurno.getOdontologoSeleccionado();
+        PacienteResponseDto paciente = pacienteService.buscarPorId(turnoPacienteSeleccionadoId);
+        OdontologoResponseDto odontologo = odontologoService.buscarOdontologoPorId(odontologoSeleccionadoId);
+        Paciente pacienteTurno = modelMapper.map(paciente, Paciente.class);
+        Odontologo odontologoTurno = modelMapper.map(odontologo, Odontologo.class);
         String pacienteNoEncontradoEnDb = "El paciente no se encuentra en nuestra base de datos";
         String odontologoNoEncontradoEnDb = "El odontologo no se encuentra en nuestra base de datos";
 
@@ -55,7 +59,10 @@ public class TurnosService implements ITurnoService {
                 LOGGER.error(odontologoNoEncontradoEnDb);
             }
         } else {
-            Turno turnoParaAgregar = turnoRepository.save(modelMapper.map(nuevoTurno, Turno.class));
+            Turno turnoParaAgregar = modelMapper.map(nuevoTurno, Turno.class);
+            turnoParaAgregar.setTurnoPaciente(pacienteTurno);
+            turnoParaAgregar.setOdontologo(odontologoTurno);
+            turnoRepository.save(turnoParaAgregar);
             turnoResponseDto = turnoEntityATurnoResponseDto(turnoParaAgregar);
             LOGGER.info("Turno agregado con exito");
         }
@@ -63,13 +70,17 @@ public class TurnosService implements ITurnoService {
     }
 
     @Override
-    public TurnoResponseDto buscarPorId(Long id) {
+    public TurnoResponseDto buscarPorId(Long id) throws Exception {
         Turno turnoBuscadoPorId = turnoRepository.findById(id).orElse(null);
 
         TurnoResponseDto turnoResponseDto = null;
         if(turnoBuscadoPorId != null) {
             turnoResponseDto = turnoEntityATurnoResponseDto(turnoBuscadoPorId);
-        } else LOGGER.error("No se pudo encontrar el turno por ID en la base de datos");
+        } else {
+            LOGGER.error("No se pudo encontrar el turno por ID en la base de datos");
+            System.out.println(Arrays.toString(new Exception().getStackTrace()));
+            throw new Exception();
+        }
 
         return turnoResponseDto;
     }
@@ -83,7 +94,7 @@ public class TurnosService implements ITurnoService {
     @Override
     public List<TurnoResponseDto> listarTodosLosTurnos() {
         LOGGER.info("Listando los turnos");
-        return turnoRepository.findAll().stream().map(this::turnoEntityATurnoResponseDto).toList();
+        return turnoRepository.findAll().stream().map(turno -> modelMapper.map(turno, TurnoResponseDto.class)).toList();
     }
 
     @Override
@@ -120,10 +131,21 @@ public class TurnosService implements ITurnoService {
     }
 
     public TurnoResponseDto turnoEntityATurnoResponseDto(Turno turno) {
-        TurnoResponseDto turnoResponseDto = modelMapper.map(turno, TurnoResponseDto.class);
-        turnoResponseDto.setTurnoPaciente(pacienteTurnoResponseDtoATurnoResponseDto(turno.getTurnoPaciente().getId()));
-        turnoResponseDto.setOdontologo(odontologoTurnoResponseDtoATurnoResponseDto(turno.getOdontologo().getId()));
-        return turnoResponseDto;
-    }
 
+
+        if (turno == null || turno.getTurnoPaciente() == null || turno.getOdontologo() == null) {
+            // Manejar el caso cuando alguna de las propiedades sea nula
+            return null;
+        }
+
+        try {
+            TurnoResponseDto turnoResponseDto = modelMapper.map(turno, TurnoResponseDto.class);
+            turnoResponseDto.setTurnoPaciente(pacienteTurnoResponseDtoATurnoResponseDto(turno.getTurnoPaciente().getId()));
+            turnoResponseDto.setOdontologo(odontologoTurnoResponseDtoATurnoResponseDto(turno.getOdontologo().getId()));
+            return turnoResponseDto;
+        } catch (Exception e) {
+            LOGGER.error("Error al mapear el turno a TurnoResponseDto", e);
+            return null;
+        }
+    }
 }

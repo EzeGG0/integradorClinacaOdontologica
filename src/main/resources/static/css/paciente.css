@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+#app {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 10px;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+h2 {
+    margin-top: 20px;
+}
+.paciente-item {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.paciente-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-eliminar,
+.btn-actualizar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.btn-actualizar {
+    background-color: #17a2b8;
+}
+#buscarPorIdForm {
+    margin-top: 20px;
+}
+
+#pacientePorIdResult {
+    margin-top: 10px;
+}
+
+#pacientePorIdResult strong {
+    margin-right: 5px;
+}

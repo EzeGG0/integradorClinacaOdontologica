@@ -2,6 +2,7 @@ package com.backend.digitalhouse.integradorclinacaodontologica.dto.modificacion;
 
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.request.Paciente.DomicilioRequestDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Setter
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PacienteModificacionDto {
     @NotNull(message = "Debe proveer el Id del  paciente que se desea modificar")
     private Long id;

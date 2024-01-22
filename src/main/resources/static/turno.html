@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Administrador de Turnos</title>
+    <link rel="stylesheet" href="./css/turno.css">
+</head>
+<body>
+
+<h1>Administrador de Turnos</h1>
+
+<div>
+    <button id="fetch-turnos">Obtener Turnos</button>
+    <button id="add-turno">Agregar Turno</button>
+</div>
+
+<table id="turnos-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Paciente</th>
+        <th>Odontólogo</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<div id="add-turno-form" style="display:none;">
+    <label>Fecha: <input type="datetime-local" id="fecha"></label><br>
+    <label>Paciente ID: <input type="number" id="paciente-id"></label><br>
+    <label>Odontólogo ID: <input type="number" id="odontologo-id"></label><br>
+    <button id="save-turno">Guardar</button>
+</div>
+
+<script src="./javascript/turno.js"></script>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.backend.digitalhouse.integradorclinacaodontologica.dto.modificacion;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Setter
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DomicilioModificacionDto {
 
     @NotNull(message = "Debe proveer el Id del domicilio que se desea modificar")
