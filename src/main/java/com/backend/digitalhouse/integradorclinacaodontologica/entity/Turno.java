@@ -14,6 +14,8 @@ import java.util.Date;
 @Table(name = "TURNOS")
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
 public class Turno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,38 +35,6 @@ public class Turno {
     public Turno(LocalDateTime day, Paciente turnoPaciente, Odontologo odontologo) {
         this.day = day;
         this.turnoPaciente = turnoPaciente;
-        this.odontologo = odontologo;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getDay() {
-        return day;
-    }
-
-    public void setDay(LocalDateTime day) {
-        this.day = day;
-    }
-
-    public Paciente getTurnoPaciente() {
-        return turnoPaciente;
-    }
-
-    public void setTurnoPaciente(Paciente turnoPaciente) {
-        this.turnoPaciente = turnoPaciente;
-    }
-
-    public Odontologo getOdontologo() {
-        return odontologo;
-    }
-
-    public void setOdontologo(Odontologo odontologo) {
         this.odontologo = odontologo;
     }
 }
