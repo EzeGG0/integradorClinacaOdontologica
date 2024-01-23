@@ -1,40 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Administrador de Turnos</title>
-    <link rel="stylesheet" href="./css/turno.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./css/turno.css">
+    <title>Turno</title>
 </head>
 <body>
+<div id="turno-container">
+    <h1>Crear Nuevo Turno</h1>
 
-<h1>Administrador de Turnos</h1>
+    <form id="turno-form">
+        <label for="fechaHora">Fecha y Hora:</label>
+        <input type="datetime-local" id="fechaHora" name="fechaHora" required>
 
-<div>
-    <button id="fetch-turnos">Obtener Turnos</button>
-    <button id="add-turno">Agregar Turno</button>
-</div>
+        <label for="paciente">Paciente:</label>
+        <select id="paciente" name="paciente" required>
+            <!-- Opciones de pacientes se cargarían dinámicamente desde el backend -->
+        </select>
 
-<table id="turnos-table">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Fecha</th>
-        <th>Paciente</th>
-        <th>Odontólogo</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+        <label for="odontologo">Odontólogo:</label>
+        <select id="odontologo" name="odontologo" required>
+            <!-- Opciones de odontólogos se cargarían dinámicamente desde el backend -->
+        </select>
 
-<div id="add-turno-form" style="display:none;">
-    <label>Fecha: <input type="datetime-local" id="fecha"></label><br>
-    <label>Paciente ID: <input type="number" id="paciente-id"></label><br>
-    <label>Odontólogo ID: <input type="number" id="odontologo-id"></label><br>
-    <button id="save-turno">Guardar</button>
+        <button type="button" onclick="crearTurno()">Crear Turno</button>
+    </form>
+
+    <hr>
+
+    <h2>Listado de Turnos</h2>
+    <ul id="lista-turnos">
+        <!-- La lista de turnos se cargaría dinámicamente desde el backend -->
+    </ul>
 </div>
 
 <script src="./javascript/turno.js"></script>
-
 </body>
 </html>

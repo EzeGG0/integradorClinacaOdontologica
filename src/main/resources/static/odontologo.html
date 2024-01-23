@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./css/odontologo.css">
+    <title>Odontólogo</title>
+</head>
+<body>
+<div id="odontologo-container">
+    <h1>Gestión de Odontólogos</h1>
+
+    <form id="odontologo-form">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required>
+
+        <label for="matricula">Matrícula:</label>
+        <input type="text" id="matricula" name="matricula" required>
+
+        <button type="button" onclick="crearOdontologo()">Agregar Odontólogo</button>
+    </form>
+
+    <hr>
+
+    <h2>Listado de Odontólogos</h2>
+    <ul id="lista-odontologos">
+        <!-- La lista de odontólogos se cargaría dinámicamente desde el backend -->
+    </ul>
+</div>
+
+<script src="./javascript/odontologo.js"></script>
+</body>
+</html>
