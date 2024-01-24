@@ -1,249 +1,206 @@
-const app = document.getElementById('app');
-const addPacienteForm = document.getElementById('addPacienteForm');
-const pacienteList = document.getElementById('pacienteList');
-
-async function obtenerPacientes() {
+// Función para realizar una solicitud HTTP
+async function hacerSolicitud(url, metodo, datos = null) {
     try {
-        const response = await fetch('http://localhost:8080/api/paciente');
-        const pacientes = await response.json();
-
-        pacienteList.innerHTML = '';
-
-        pacientes.forEach(paciente => {
-            const listItem = document.createElement('div');
-            listItem.classList.add('paciente-item');
-
-            const pacienteInfo = document.createElement('div');
-            pacienteInfo.classList.add('paciente-info');
-            pacienteInfo.innerHTML = `<div><strong>ID:</strong> ${paciente.id}</div>
-                                      <div><strong>Nombre:</strong> ${paciente.name}</div>
-                                      <div><strong>Apellido:</strong> ${paciente.lastName}</div>
-                                      <div><strong>DNI:</strong> ${paciente.dni}</div>
-                                      <div><strong>Dirección:</strong> ${paciente.address.calle}, ${paciente.address.numero}, ${paciente.address.localidad}, ${paciente.address.provincia}</div>`;
-
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Eliminar';
-            deleteButton.onclick = () => eliminarPaciente(paciente.id);
-            deleteButton.classList.add('btn-eliminar');
-            pacienteInfo.appendChild(deleteButton);
-
-            const updateButton = document.createElement('button');
-            updateButton.textContent = 'Actualizar';
-            updateButton.onclick = () => mostrarFormularioActualizar(paciente);
-            updateButton.classList.add('btn-actualizar');
-            pacienteInfo.appendChild(updateButton);
-
-            listItem.appendChild(pacienteInfo);
-
-            pacienteList.appendChild(listItem);
+        const respuesta = await fetch(url, {
+            method: metodo,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: datos ? JSON.stringify(datos) : null,
         });
+
+        if (!respuesta.ok) {
+            const mensajeError = await respuesta.text();
+            throw new Error(`Error ${respuesta.status}: ${mensajeError}`);
+        }
+
+        return await respuesta.json();
     } catch (error) {
-        console.error('Error al obtener la lista de pacientes:', error);
+        console.error('Error en la solicitud:', error);
+        throw error;
     }
 }
 
+// Función para cargar la lista de pacientes desde el backend
+async function cargarPacientes() {
+    try {
+        const pacientes = await hacerSolicitud('/api/paciente', 'GET');
+        actualizarListaPacientes(pacientes);
+    } catch (error) {
+        console.error('Error al cargar pacientes:', error);
+    }
+}
 
+// Función para agregar un nuevo paciente
 async function agregarPaciente() {
-    try {
-        const nuevoPaciente = obtenerDatosFormulario();
+    const nombre = document.getElementById('nombre').value;
+    const apellido = document.getElementById('apellido').value;
+    const fechaDeAlta = document.getElementById('fechaDeAlta').value;
+    const dni = document.getElementById('dni').value;
+    const calle = document.getElementById('calle').value;
+    const numero = document.getElementById('numero').value;
+    const localidad = document.getElementById('localidad').value;
+    const provincia = document.getElementById('provincia').value;
 
-        const response = await fetch('http://localhost:8080/api/paciente', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(nuevoPaciente),
-        });
-
-        if (response.ok) {
-            await obtenerPacientes();
-            addPacienteForm.reset();
-        } else {
-            console.error('Error al agregar el paciente:', response.status, response.statusText);
-        }
-    } catch (error) {
-        console.error('Error al agregar el paciente:', error);
-    }
-}
-
-async function eliminarPaciente(id) {
-    try {
-        const response = await fetch(`http://localhost:8080/api/paciente/${id}`, {
-            method: 'DELETE',
-        });
-
-        if (response.ok) {
-            await obtenerPacientes();
-        } else {
-            console.error('Error al eliminar el paciente:', response.status, response.statusText);
-        }
-    } catch (error) {
-        console.error('Error al eliminar el paciente:', error);
-    }
-}
-
-async function buscarPacientePorId(id) {
-    try {
-        const response = await fetch(`http://localhost:8080/api/paciente/${id}`);
-        const paciente = await response.json();
-
-        mostrarFormularioActualizar(paciente);
-    } catch (error) {
-        console.error('Error al buscar el paciente por ID:', error);
-    }
-}
-
-function mostrarFormularioActualizar(paciente) {
-    const updatePacienteForm = document.createElement('form');
-    updatePacienteForm.id = 'updatePacienteForm';
-
-    const idInput = document.createElement('input');
-    idInput.type = 'hidden';
-    idInput.name = 'id';
-    idInput.value = paciente.id;
-
-    const nameLabel = document.createElement('label');
-    nameLabel.textContent = 'Nombre:';
-    const nameInput = document.createElement('input');
-    nameInput.type = 'text';
-    nameInput.name = 'name';
-    nameInput.value = paciente.name;
-
-    const lastNameLabel = document.createElement('label');
-    lastNameLabel.textContent = 'Apellido:';
-    const lastNameInput = document.createElement('input');
-    lastNameInput.type = 'text';
-    lastNameInput.name = 'lastName';
-    lastNameInput.value = paciente.lastName;
-
-    const dniLabel = document.createElement('label');
-    dniLabel.textContent = 'DNI:';
-    const dniInput = document.createElement('input');
-    dniInput.type = 'text';
-    dniInput.name = 'dni';
-    dniInput.value = paciente.dni;
-
-    const calleLabel = document.createElement('label');
-    calleLabel.textContent = 'Calle:';
-    const calleInput = document.createElement('input');
-    calleInput.type = 'text';
-    calleInput.name = 'calle';
-    calleInput.value = paciente.address.calle;
-
-    const numeroLabel = document.createElement('label');
-    numeroLabel.textContent = 'Número:';
-    const numeroInput = document.createElement('input');
-    numeroInput.type = 'text';
-    numeroInput.name = 'numero';
-    numeroInput.value = paciente.address.numero;
-
-    const localidadLabel = document.createElement('label');
-    localidadLabel.textContent = 'Localidad:';
-    const localidadInput = document.createElement('input');
-    localidadInput.type = 'text';
-    localidadInput.name = 'localidad';
-    localidadInput.value = paciente.address.localidad;
-
-    const provinciaLabel = document.createElement('label');
-    provinciaLabel.textContent = 'Provincia:';
-    const provinciaInput = document.createElement('input');
-    provinciaInput.type = 'text';
-    provinciaInput.name = 'provincia';
-    provinciaInput.value = paciente.address.provincia;
-
-    const updateButton = document.createElement('button');
-    updateButton.textContent = 'Actualizar';
-    updateButton.type = 'button';
-    updateButton.onclick = () => actualizarPaciente();
-    updatePacienteForm.append(
-        idInput,
-        nameLabel, nameInput,
-        lastNameLabel, lastNameInput,
-        dniLabel, dniInput,
-        calleLabel, calleInput,
-        numeroLabel, numeroInput,
-        localidadLabel, localidadInput,
-        provinciaLabel, provinciaInput,
-        updateButton
-    );
-
-    // Agrega el formulario a la página
-    app.appendChild(updatePacienteForm);
-}
-
-async function actualizarPaciente() {
-    try {
-        const updatedPaciente = obtenerDatosFormulario();
-
-        const response = await fetch(`http://localhost:8080/api/paciente`, {
-            method: 'PUT', // o 'PATCH' dependiendo de tu lógica de actualización
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedPaciente),
-        });
-
-        if (response.ok) {
-            await obtenerPacientes();
-            // Elimina el formulario de actualización después de la actualización exitosa
-            const updatePacienteForm = document.getElementById('updatePacienteForm');
-            if (updatePacienteForm) {
-                updatePacienteForm.remove();
-            }
-        } else {
-            console.error('Error al actualizar el paciente:', response.status, response.statusText);
-        }
-    } catch (error) {
-        console.error('Error al actualizar el paciente:', error);
-    }
-}
-
-function obtenerDatosFormulario() {
-    return {
-        id: document.getElementsByName('id')[0].value,
-        name: document.getElementsByName('name')[0].value,
-        lastName: document.getElementsByName('lastName')[0].value,
-        dni: document.getElementsByName('dni')[0].value,
+    const nuevoPaciente = {
+        name: nombre,
+        lastName: apellido,
+        fechaDeAlta: fechaDeAlta,
+        dni: dni,
         address: {
-            calle: document.getElementsByName('calle')[0].value,
-            numero: document.getElementsByName('numero')[0].value,
-            localidad: document.getElementsByName('localidad')[0].value,
-            provincia: document.getElementsByName('provincia')[0].value,
+            calle: calle,
+            numero: numero,
+            localidad: localidad,
+            provincia: provincia
         }
     };
-}
 
-async function buscarPacientePorId() {
     try {
-        const idBuscar = document.getElementById('idBuscar').value;
-
-        if (!idBuscar) {
-            console.error('Por favor, ingrese un ID válido.');
-            return;
-        }
-
-        const response = await fetch(`http://localhost:8080/api/paciente/${idBuscar}`);
-        const pacientePorIdResult = document.getElementById('pacientePorIdResult');
-        if (response.ok) {
-            const paciente = await response.json();
-
-
-            pacientePorIdResult.innerHTML = `<strong>ID:</strong> ${paciente.id}<br>
-                                             <strong>Nombre:</strong> ${paciente.name}<br>
-                                             <strong>Apellido:</strong> ${paciente.lastName}<br>
-                                             <strong>DNI:</strong> ${paciente.dni}<br>
-                                             <strong>Dirección:</strong> ${paciente.address.calle}, ${paciente.address.numero}, ${paciente.address.localidad}, ${paciente.address.provincia}`;
-        } else {
-            console.error('Error al buscar el paciente por ID:', response.status, response.statusText);
-        }
+        await hacerSolicitud('/api/paciente', 'POST', nuevoPaciente);
+        limpiarFormulario();
+        cargarPacientes();
     } catch (error) {
-        console.error('Error al buscar el paciente por ID:', error);
+        console.error('Error al agregar paciente:', error);
     }
 }
 
-// Inicializar la interfaz de usuario
-function iniciarUI() {
-    obtenerPacientes();
+// Función para cargar datos en el formulario de actualización
+function cargarDatosEnFormulario(paciente) {
+    const listaPacientes = document.getElementById('pacientesList');
+
+    // Encuentra el elemento de la lista correspondiente al paciente
+    const listItem = Array.from(listaPacientes.children).find(item => item.dataset.id === paciente.id.toString());
+
+    if (listItem) {
+        // Deshabilitar botones de actualizar y eliminar
+        listItem.querySelector('.btn-actualizar').disabled = true;
+        listItem.querySelector('.btn-eliminar').disabled = true;
+
+        // Crear campos de entrada para actualizar
+        const inputNombre = document.createElement('input');
+        inputNombre.type = 'text';
+        inputNombre.value = paciente.name;
+
+        const inputApellido = document.createElement('input');
+        inputApellido.type = 'text';
+        inputApellido.value = paciente.lastName;
+
+        const inputFechaDeAlta = document.createElement('input');
+        inputFechaDeAlta.type = 'date';
+        inputFechaDeAlta.value = paciente.fechaDeAlta;
+
+        const inputDni = document.createElement('input');
+        inputDni.type = 'text';
+        inputDni.value = paciente.dni;
+
+        const inputCalle = document.createElement('input');
+        inputCalle.type = 'text';
+        inputCalle.value = paciente.address.calle;
+
+        const inputNumero = document.createElement('input');
+        inputNumero.type = 'text';
+        inputNumero.value = paciente.address.numero;
+
+        const inputLocalidad = document.createElement('input');
+        inputLocalidad.type = 'text';
+        inputLocalidad.value = paciente.address.localidad;
+
+        const inputProvincia = document.createElement('input');
+        inputProvincia.type = 'text';
+        inputProvincia.value = paciente.address.provincia;
+
+        // Agregar campos de entrada a la lista
+        listItem.querySelector('.nombre').appendChild(inputNombre);
+        listItem.querySelector('.apellido').appendChild(inputApellido);
+        listItem.querySelector('.fechaDeAlta').appendChild(inputFechaDeAlta);
+        listItem.querySelector('.dni').appendChild(inputDni);
+        listItem.querySelector('.calle').appendChild(inputCalle);
+        listItem.querySelector('.numero').appendChild(inputNumero);
+        listItem.querySelector('.localidad').appendChild(inputLocalidad);
+        listItem.querySelector('.provincia').appendChild(inputProvincia);
+
+        // Crear botones de guardar y cancelar
+        const btnGuardar = document.createElement('button');
+        btnGuardar.textContent = 'Guardar';
+        btnGuardar.addEventListener('click', () => guardarCambios(paciente.id));
+
+        const btnCancelar = document.createElement('button');
+        btnCancelar.textContent = 'Cancelar';
+        btnCancelar.addEventListener('click', cancelarActualizacion);
+
+        // Agregar botones a la lista
+        listItem.querySelector('.acciones').appendChild(btnGuardar);
+        listItem.querySelector('.acciones').appendChild(btnCancelar);
+    }
 }
 
-window.addEventListener('load', iniciarUI);
+// Función para guardar cambios después de actualizar
+async function guardarCambios(pacienteId) {
+    const listaPacientes = document.getElementById('pacientesList');
+    const listItem = Array.from(listaPacientes.children).find(item => item.dataset.id === pacienteId.toString());
+
+    if (listItem) {
+        const nombre = listItem.querySelector('.nombre input').value;
+        const apellido = listItem.querySelector('.apellido input').value;
+        const fechaDeAlta = listItem.querySelector('.fechaDeAlta input').value;
+        const dni = listItem.querySelector('.dni input').value;
+        const calle = listItem.querySelector('.calle input').value;
+        const numero = listItem.querySelector('.numero input').value;
+        const localidad = listItem.querySelector('.localidad input').value;
+        const provincia = listItem.querySelector('.provincia input').value;
+
+        const pacienteActualizado = {
+            id: pacienteId,
+            name: nombre,
+            lastName: apellido,
+            fechaDeAlta: fechaDeAlta,
+            dni: dni,
+            address: {
+                calle: calle,
+                numero: numero,
+                localidad: localidad,
+                provincia: provincia
+            }
+        };
+
+        try {
+            await hacerSolicitud(`/api/paciente`, 'PUT', pacienteActualizado);
+            cargarPacientes();
+            cancelarActualizacion(); // Puedes quitar esto si prefieres que los campos de edición permanezcan después de guardar
+        } catch (error) {
+            console.error('Error al actualizar paciente:', error);
+        }
+    }
+}
+
+// Función para limpiar el formulario después de agregar un paciente
+function limpiarFormulario() {
+    document.getElementById('nombre').value = '';
+    document.getElementById('apellido').value = '';
+    document.getElementById('fechaDeAlta').value = '';
+    document.getElementById('dni').value = '';
+    document.getElementById('calle').value = '';
+    document.getElementById('numero').value = '';
+    document.getElementById('localidad').value = '';
+    document.getElementById('provincia').value = '';
+}
+
+// Función para eliminar un paciente
+async function eliminarPaciente(id) {
+    try {
+        await hacerSolicitud(`/api/paciente/${id}`, 'DELETE');
+        cargarPacientes();
+    } catch (error) {
+        console.error('Error al eliminar paciente:', error);
+    }
+}
+
+// Función para cancelar la actualización y mostrar el formulario de creación
+function cancelarActualizacion() {
+    cargarPacientes();
+}
+
+// Inicializar la lista de pacientes al cargar la página
+window.onload = function() {
+    cargarPacientes();
+};

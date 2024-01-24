@@ -35,12 +35,13 @@ public class PacienteModificacionDto {
     @FutureOrPresent(message = "La fecha no puede ser anterior al dia de hoy")
     @NotNull(message = "Debe especificarse la fecha de ingreso del paciente")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private DomicilioRequestDto address;
+    private LocalDate fechaDeAlta;
+
 
     @NotNull(message = "El dni del paciente no puede ser nulo")
     private Integer dni;
 
     @NotNull(message = "El domicilio del paciente no puede ser nulo")
     @Valid
-    private LocalDate fechaDeAlta;
+    private DomicilioRequestDto address;
 }

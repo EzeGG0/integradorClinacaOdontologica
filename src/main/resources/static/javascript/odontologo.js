@@ -21,7 +21,7 @@ function cargarOdontologos() {
         });
 }
 
-function crearOdontologo() {
+function agregarOdontologo() {
     const nombre = document.getElementById('nombre').value;
     const apellido = document.getElementById('apellido').value;
     const matricula = document.getElementById('matricula').value;

@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/paciente.css">
-    <title>Administración de Pacientes</title>
+    <title>CRUD de Pacientes</title>
 </head>
 <body>
-<div id="app">
-    <h1>Administración de Pacientes</h1>
-    <form id="addPacienteForm">
-        <label for="name">Nombre:</label>
-        <input type="text" id="name" required>
+<div class="container">
+    <h1>CRUD de Pacientes</h1>
 
-        <label for="lastName">Apellido:</label>
-        <input type="text" id="lastName" required>
+    <!-- Formulario para agregar nuevo paciente -->
+    <form id="pacienteForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" required>
+
+        <label for="fechaDeAlta">Fecha de Alta:</label>
+        <input type="date" id="fechaDeAlta" required>
 
         <label for="dni">DNI:</label>
         <input type="text" id="dni" required>
@@ -34,18 +39,10 @@
         <button type="button" onclick="agregarPaciente()">Agregar Paciente</button>
     </form>
 
-    <h2>Listado de Pacientes</h2>
-    <ul id="pacienteList"></ul>
-
-    <div id="buscarPorIdForm">
-        <h2>Buscar Paciente por ID</h2>
-        <label for="idBuscar">ID:</label>
-        <input type="text" id="idBuscar" required>
-        <button type="button" onclick="buscarPacientePorId()">Buscar</button>
-        <div id="pacientePorIdResult"></div>
-    </div>
-
+    <!-- Lista de pacientes -->
+    <ul id="pacientesList"></ul>
 </div>
+
 <script src="./javascript/paciente.js"></script>
 </body>
 </html>
