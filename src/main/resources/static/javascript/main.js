@@ -38,10 +38,23 @@ function cargarInformacion(endpoint, titulo) {
                 Object.values(item).forEach(value => {
                     const td = document.createElement('td');
 
-                    // Convertir objetos a cadena JSON con formato
-                    if (typeof value === 'object') {
-                        td.textContent = JSON.stringify(value, null, 2);
+                    // Verificar si el valor es un objeto y tiene propiedades 'nombre' y 'apellido'
+                    if (typeof value === 'object' && value !== null && 'name' in value && 'lastName' in value) {
+                        td.textContent = `${value.name} ${value.lastName}`;
                     } else {
+                        // Si no es un objeto, o es nulo, simplemente mostrar el valor
+                        td.textContent = value;
+                    }
+                    if (typeof value === 'object' && value !== null) {
+                        // Verificar si es la propiedad 'address' y extraer sus propiedades
+                        if ('calle' in value && 'localidad' in value && 'provincia' in value) {
+                            td.textContent = `${value.calle}, ${value.localidad}, ${value.provincia}`;
+                        } else {
+                            // Si es un objeto pero no es 'address', mostrar [object Object]
+                            td.textContent = '[object Object]';
+                        }
+                    } else {
+                        // Si no es un objeto, o es nulo, simplemente mostrar el valor
                         td.textContent = value;
                     }
 
@@ -50,6 +63,18 @@ function cargarInformacion(endpoint, titulo) {
                 table.appendChild(row);
             });
 
+            // data.forEach(item => {
+            //     const row = document.createElement('tr');
+            //     Object.values(item).forEach(value => {
+            //         const td = document.createElement('td');
+            //
+            //
+            //
+            //         row.appendChild(td);
+            //     });
+            //     table.appendChild(row);
+            // });
+            //
             tableContainer.appendChild(table);
 
             // Actualizar el contenido principal con la tabla
@@ -61,4 +86,3 @@ function cargarInformacion(endpoint, titulo) {
             console.error(`Error al cargar la información: ${error}`);
         });
 }
-
