@@ -3,44 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/paciente.css">
-    <title>CRUD de Pacientes</title>
+    <link rel="stylesheet" type="text/css" href="./css/paciente.css"> <!-- Puedes crear un nuevo archivo CSS si es necesario -->
+    <title>Paciente</title>
 </head>
 <body>
-<div class="container">
-    <h1>CRUD de Pacientes</h1>
+<div id="paciente-container">
+    <h1>Administrar Pacientes</h1>
 
-    <!-- Formulario para agregar nuevo paciente -->
-    <form id="pacienteForm">
+    <form id="paciente-form">
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" required>
+        <input type="text" id="nombre" name="nombre" required>
 
         <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" required>
-
-        <label for="fechaDeAlta">Fecha de Alta:</label>
-        <input type="date" id="fechaDeAlta" required>
+        <input type="text" id="apellido" name="apellido" required>
 
         <label for="dni">DNI:</label>
-        <input type="text" id="dni" required>
+        <input type="text" id="dni" name="dni" required>
 
-        <label for="calle">Calle:</label>
-        <input type="text" id="calle" required>
-
-        <label for="numero">Número:</label>
-        <input type="text" id="numero" required>
-
-        <label for="localidad">Localidad:</label>
-        <input type="text" id="localidad" required>
-
-        <label for="provincia">Provincia:</label>
-        <input type="text" id="provincia" required>
+        <!-- Añadir campos adicionales según la estructura de tu entidad Paciente -->
 
         <button type="button" onclick="agregarPaciente()">Agregar Paciente</button>
     </form>
 
-    <!-- Lista de pacientes -->
-    <ul id="pacientesList"></ul>
+    <form id="formulario-actualizar" style="display: none;">
+        <input type="hidden" id="actualizar-id">
+        <label for="actualizar-nombre">Nombre:</label>
+        <input type="text" id="actualizar-nombre" required>
+        <label for="actualizar-apellido">Apellido:</label>
+        <input type="text" id="actualizar-apellido" required>
+        <label for="actualizar-dni">DNI:</label>
+        <input type="text" id="actualizar-dni" required>
+
+        <!-- Añadir campos adicionales según la estructura de tu entidad Paciente -->
+
+        <button type="button" onclick="actualizarPaciente()">Actualizar Paciente</button>
+    </form>
+    <hr>
+
+    <h2>Listado de Pacientes</h2>
+    <ul id="lista-pacientes">
+        <!-- La lista de pacientes se cargaría dinámicamente desde el backend -->
+    </ul>
 </div>
 
 <script src="./javascript/paciente.js"></script>

@@ -1,11 +1,7 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-}
-
-#app {
+#paciente-container {
     max-width: 600px;
     margin: 0 auto;
+    padding: 20px;
 }
 
 form {
@@ -14,15 +10,21 @@ form {
 
 label {
     display: block;
-    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
 }
 
 button {
-    margin-top: 10px;
-    background-color: #4caf50;
+    background-color: #4CAF50;
     color: white;
     padding: 10px 15px;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
@@ -30,41 +32,34 @@ button:hover {
     background-color: #45a049;
 }
 
-h2 {
-    margin-top: 20px;
+#formulario-actualizar {
+    display: none;
 }
-.paciente-item {
-    border: 1px solid #ccc;
+
+#lista-pacientes {
+    list-style-type: none;
+    padding: 0;
+}
+
+#lista-pacientes li {
     margin-bottom: 10px;
-    padding: 10px;
 }
 
-.paciente-info {
-    display: flex;
-    justify-content: space-between;
+#lista-pacientes li span {
+    font-weight: bold;
+    margin-right: 10px;
 }
 
-.btn-eliminar,
-.btn-actualizar {
-    background-color: #dc3545;
+#lista-pacientes li button {
+    background-color: #f44336;
     color: white;
-    border: none;
     padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
     cursor: pointer;
     margin-left: 5px;
 }
 
-.btn-actualizar {
-    background-color: #17a2b8;
-}
-#buscarPorIdForm {
-    margin-top: 20px;
-}
-
-#pacientePorIdResult {
-    margin-top: 10px;
-}
-
-#pacientePorIdResult strong {
-    margin-right: 5px;
+#lista-pacientes li button:hover {
+    background-color: #d32f2f;
 }
