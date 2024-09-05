@@ -4,8 +4,6 @@ import com.backend.digitalhouse.integradorclinacaodontologica.dto.modificacion.T
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.request.Turno.TurnoRequestDto;
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.response.Turno.TurnoResponseDto;
 import com.backend.digitalhouse.integradorclinacaodontologica.service.impl.TurnosService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,5 @@
 package com.backend.digitalhouse.integradorclinacaodontologica.dto.modificacion;
 
-import com.backend.digitalhouse.integradorclinacaodontologica.dto.request.Paciente.DomicilioRequestDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +8,6 @@ import lombok.Setter;
 
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor

@@ -1,11 +1,9 @@
 package com.backend.digitalhouse.integradorclinacaodontologica;
 
-import com.backend.digitalhouse.integradorclinacaodontologica.dto.modificacion.DomicilioModificacionDto;
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.modificacion.PacienteModificacionDto;
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.request.Paciente.DomicilioRequestDto;
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.request.Paciente.PacienteRequestDto;
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.response.Paciente.PacienteResponseDto;
-import com.backend.digitalhouse.integradorclinacaodontologica.repository.PacienteRepository;
 import com.backend.digitalhouse.integradorclinacaodontologica.service.impl.PacienteService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -23,9 +21,6 @@ class PacienteServiceTest {
 
     @Autowired
     private PacienteService pacienteService;
-
-    @Autowired
-    private PacienteRepository pacienteRepository;
 
     @Test
     @Transactional

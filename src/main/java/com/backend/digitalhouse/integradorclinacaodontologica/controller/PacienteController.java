@@ -4,7 +4,6 @@ import com.backend.digitalhouse.integradorclinacaodontologica.dto.modificacion.P
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.request.Paciente.PacienteRequestDto;
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.response.Paciente.PacienteResponseDto;
 import com.backend.digitalhouse.integradorclinacaodontologica.service.impl.PacienteService;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

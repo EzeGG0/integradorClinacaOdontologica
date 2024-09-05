@@ -3,7 +3,6 @@ package com.backend.digitalhouse.integradorclinacaodontologica.controller;
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.modificacion.OdontologoModificacionDto;
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.request.Odontologo.OdontologoRequestDto;
 import com.backend.digitalhouse.integradorclinacaodontologica.dto.response.Odontologo.OdontologoResponseDto;
-import com.backend.digitalhouse.integradorclinacaodontologica.repository.OdontologoRepository;
 import com.backend.digitalhouse.integradorclinacaodontologica.service.impl.OdontologoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,10 +1,8 @@
 package com.backend.digitalhouse.integradorclinacaodontologica.dto.response.Turno;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
